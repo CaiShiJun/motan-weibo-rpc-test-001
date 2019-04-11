@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:motan="http://api.weibo.com/schema/motan"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://api.weibo.com/schema/motan http://api.weibo.com/schema/motan.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="classpath:application.properties"/>
+    <motan:registry regProtocol="zookeeper" name="my_zookeeper" address="${zookeeper.address}"/>
+
+    <!-- service implemention bean -->
+    <bean id="clusterUseZooKeeperServiceImpl" class="org.github.caishijun.motan.server.service.ClusterUseZooKeeperServiceImpl" />
+    <!-- exporting service by Motan -->
+    <motan:service interface="org.github.caishijun.motan.api.ClusterUseZooKeeperService" ref="clusterUseZooKeeperServiceImpl" registry="my_zookeeper" export="8002" />
+</beans>
